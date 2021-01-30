@@ -8,51 +8,49 @@ namespace _Scripts
         public GameObject filled;
         public BoxCollider2D physicalPlatform;
         [Header("Dynamic")]
-        public bool active;
-        public Jason player;
+        private Jason _player;
+        [SerializeField]
+        private bool _isActive = false;
+        private bool _isNull = true;
 
-        private void Start()
-        {
-            active = false;
-            player = null;
-        }
-    
+
+
+
         private void OnTriggerEnter2D(Collider2D collision)
         {
-            if(collision.transform.CompareTag("Player"))
+            if (collision.transform.CompareTag("Player"))
             {
-                player = collision.gameObject.GetComponent<Jason>();
+                _player = collision.gameObject.GetComponent<Jason>();
+                _isNull = false;
             }
         }
         private void OnTriggerExit2D(Collider2D collision)
         {
 
-            if(collision.transform.CompareTag("Player"))
+            if (collision.transform.CompareTag("Player"))
             {
-                player = null;
+                _isNull = true;
             }
         }
-        private void Update() => OnCheck();
 
+        private void Update() => OnCheck();
         private void OnCheck()
         {
-            if (player != null)
-            {
-                active = player.active && (!player.isShifting);
-            }
 
-            if(player != null)
+            if (!_isNull)
             {
-                if (active)
+                if (_player.active && (!_player.isDashing))
                 {
                     filled.SetActive(true);
-                    player.platformMode = true;
+                    _player.PlatformMode(true);
+                    _isActive = true;
                 }
-                else
-                {
-                    filled.SetActive(false);
-                    player.platformMode = false;
-                }
+            }
+            if(_isActive && !_player.active)
+            {
+                filled.SetActive(false);
+                _player.PlatformMode(false);
+                _isActive = false;
             }
         }
     }

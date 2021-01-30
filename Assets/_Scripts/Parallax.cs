@@ -5,24 +5,36 @@ namespace _Scripts
 {
     public class Parallax : MonoBehaviour
     {
-        private float _length, _startPos;
+        private Vector2 _length, _startPos;
         public Camera cam;
-        public float parallaxEffect;
+        public float parallaxEffectX;
+        public float parallaxEffectY;
         private void Start()
         {
-            _startPos = transform.position.x;
-            _length = GetComponent<SpriteRenderer>().bounds.size.x;
+            _startPos = new Vector2(
+                transform.position.x,
+                transform.position.y);
+
+            _length = new Vector2(
+                GetComponent<SpriteRenderer>().bounds.size.x,
+                GetComponent<SpriteRenderer>().bounds.size.y);
         }
 
         private void FixedUpdate()
         {
-            var temp = cam.transform.position.x * (1 - parallaxEffect);
-            var dist = (cam.transform.position.x * parallaxEffect);
+            Vector2 temp = new Vector2(
+                cam.transform.position.x * (1 - parallaxEffectX),
+                cam.transform.position.y * (1 - parallaxEffectY));
 
-            transform.position = new Vector3(_startPos + dist, transform.position.y, transform.position.z);
+            Vector2 dist = new Vector2(
+                cam.transform.position.x * parallaxEffectX,
+                cam.transform.position.y * parallaxEffectY
+                );
 
-            if (temp > _startPos + _length) _startPos += _length;
-            else if (temp < _startPos - _length) _startPos -= _length;
+            transform.position = new Vector3(_startPos.x + dist.x, _startPos.y + dist.y, transform.position.z);
+
+            if (temp.x > _startPos.x + _length.x) _startPos += new Vector2(_length.x, 0);
+            else if (temp.x < _startPos.x - _length.x) _startPos -= new Vector2(_length.x, 0);
         }
     }
 }

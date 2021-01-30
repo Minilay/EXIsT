@@ -18,9 +18,9 @@ public class Greg : MonoBehaviour
         rigid.velocity = new Vector2(dir * speed, rigid.velocity.y);
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.transform.CompareTag("Obstacle"))
+        if (collision.transform.CompareTag("Obstacle"))
         {
             StartCoroutine(changeDir());
         }
@@ -29,9 +29,9 @@ public class Greg : MonoBehaviour
     {
         float tmp = dir;
         dir = 0;
-        Debug.Log("Start");
         yield return new WaitForSeconds(1);
         Debug.Log("changed");
         dir = -tmp;
+        transform.localScale = new Vector3(dir, 1, 1);
     }
 }

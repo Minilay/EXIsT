@@ -13,6 +13,8 @@ namespace _Scripts
             {
                 go.AddExplosionForce(force, transform.position,0.1f);
             }
+
+            Destroy(this.gameObject, 2f);
         }
     }
 }

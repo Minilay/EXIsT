@@ -13,20 +13,21 @@ namespace _Scripts
         public Rigidbody2D rigid;
         public Vector2 dir; 
         public bool active;
-        public bool platformMode;
-        public bool isShifting;
+        public bool isDashing;
+        [SerializeField]
+        private bool _isPlatformOn;
         private float _currentDashTime;
-
         private SpriteRenderer _spr;
+        private CircleCollider2D _coll;
 
 
         private void Start()
         {
             rigid = GetComponent<Rigidbody2D>();
-            active = false;
-
             _spr = GetComponentInChildren<SpriteRenderer>();
-            isShifting = false;
+            _coll = GetComponent<CircleCollider2D>();
+            active = false;
+            isDashing = false;
         }
 
         private void Movement()
@@ -40,8 +41,6 @@ namespace _Scripts
             {
                 transform.localScale = new Vector3(-1, 1, 1);
             }
-
-
             if (dir.x < 0)
             {
                 transform.localScale = Vector3.one;
@@ -58,7 +57,7 @@ namespace _Scripts
 
         private void Control()
         {
-            if (!platformMode && !isShifting)
+            if (!_isPlatformOn && !isDashing)
             {
                 Movement();
             }
@@ -67,10 +66,10 @@ namespace _Scripts
                 rigid.velocity = Vector3.zero;
             }
 
-            if (Input.GetKeyDown(KeyCode.LeftShift))
+            if (Input.GetKeyDown(KeyCode.LeftShift) && !_isPlatformOn)
             {
 
-                isShifting = true;
+                isDashing = true;
                 _currentDashTime = startDashTime;
                 rigid.velocity = Vector2.zero;
             }
@@ -85,18 +84,23 @@ namespace _Scripts
                 active = false;
             }
 
-            if (isShifting)
+            if (isDashing)
             {
                 rigid.velocity = dir.normalized * dashForce;
                 _currentDashTime -= Time.deltaTime;
 
                 if (_currentDashTime < 0)
                 {
-                    isShifting = false;
+                    isDashing = false;
                 }
             }
+        }
 
-            _spr.enabled = !platformMode;
+        public void PlatformMode(bool mode)
+        {
+            _spr.enabled = !mode;
+            _coll.enabled = !mode;
+            _isPlatformOn = mode;
         }
     }
 }
