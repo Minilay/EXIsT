@@ -1,23 +1,18 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class Explosion : MonoBehaviour
+namespace _Scripts
 {
-    // Start is called before the first frame update
-    public float force;
-    public List<Rigidbody2D> pieces;
-    private void Awake()
+    public class Explosion : MonoBehaviour
     {
-        foreach(Rigidbody2D go in pieces)
+        public float force;
+        public List<Rigidbody2D> pieces;
+        private void Awake()
         {
-            go.AddExplosionForce(force, transform.position,0.1f);
+            foreach(Rigidbody2D go in pieces)
+            {
+                go.AddExplosionForce(force, transform.position,0.1f);
+            }
         }
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

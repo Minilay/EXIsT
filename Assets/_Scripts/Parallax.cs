@@ -1,26 +1,28 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 using UnityEngine;
 
-public class Parallax : MonoBehaviour
+namespace _Scripts
 {
-    private float length, startPos;
-    public Camera cam;
-    public float parallaxEffect;
-    void Start()
+    public class Parallax : MonoBehaviour
     {
-        startPos = transform.position.x;
-        length = GetComponent<SpriteRenderer>().bounds.size.x;
-    }
+        private float _length, _startPos;
+        public Camera cam;
+        public float parallaxEffect;
+        private void Start()
+        {
+            _startPos = transform.position.x;
+            _length = GetComponent<SpriteRenderer>().bounds.size.x;
+        }
 
-    void FixedUpdate()
-    {
-        float temp = cam.transform.position.x * (1 - parallaxEffect);
-        float dist = (cam.transform.position.x * parallaxEffect);
+        private void FixedUpdate()
+        {
+            var temp = cam.transform.position.x * (1 - parallaxEffect);
+            var dist = (cam.transform.position.x * parallaxEffect);
 
-        transform.position = new Vector3(startPos + dist, transform.position.y, transform.position.z);
+            transform.position = new Vector3(_startPos + dist, transform.position.y, transform.position.z);
 
-        if (temp > startPos + length) startPos += length;
-        else if (temp < startPos - length) startPos -= length;
+            if (temp > _startPos + _length) _startPos += _length;
+            else if (temp < _startPos - _length) _startPos -= _length;
+        }
     }
 }

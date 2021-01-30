@@ -2960,9 +2960,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 813e1573689ed50478163db4336a7339, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  poi: {fileID: 1166907535}
+  pointOfInterest: {fileID: 1166907535}
   offset: {x: 0, y: 0}
-  u: 0.243
+  followRatio: 0
 --- !u!1 &534526937
 GameObject:
   m_ObjectHideFlags: 0
@@ -5557,14 +5557,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 5
-  shiftTime: 0.5
   dashForce: 20
   startDashTime: 0.1
   rigid: {fileID: 0}
   dir: {x: 0, y: 0}
-  Active: 0
+  active: 0
   platformMode: 0
-  isDash: 0
+  isShifting: 0
 --- !u!96 &1166907539
 TrailRenderer:
   serializedVersion: 2

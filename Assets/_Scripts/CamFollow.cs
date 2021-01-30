@@ -1,26 +1,21 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class CamFollow : MonoBehaviour
+namespace _Scripts
 {
-    [Header("Inspector")]
-    public Transform poi; //point of interest;
-    public Vector2 offset;
-    [Range(0,1)]
-    public float u; //Cam following rate;
-    private Vector2 tmp;
-
-    
-    private void FixedUpdate()
+    public class CamFollow : MonoBehaviour
     {
-        if(poi != null)
+        [Header("Inspector")]
+        [SerializeField] private Transform pointOfInterest;
+        [SerializeField] private Vector2 offset;
+    
+        [Range(0,1)]
+        public float followRatio;
+        private Vector2 _tmp;
+    
+        private void FixedUpdate()
         {
-            tmp = (poi.position - transform.position) * u + transform.position;
-            transform.position = new Vector3(tmp.x + offset.x, tmp.y + offset.y, -1);
+            _tmp = (pointOfInterest.position - transform.position) * followRatio + transform.position;
+            transform.position = new Vector3(_tmp.x + offset.x, _tmp.y + offset.y, -1);
         }
     }
-
-    
-   
 }

@@ -1,26 +1,27 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class ExplodedReplacement: MonoBehaviour
+namespace _Scripts
 {
-    // Start is called before the first frame update
-    public GameObject explodedVersion;
-
-    private void OnCollisionEnter2D(Collision2D collision)
+    public class ExplodedReplacement: MonoBehaviour
     {
-        if(collision.transform.CompareTag("Player"))
+        public GameObject explodedVersion;
+
+        private void OnCollisionEnter2D(Collision2D collision)
         {
-            if(collision.gameObject.GetComponent<Jason>().isDash)
+
+            if(collision.transform.CompareTag("Player"))
             {
-                Replacement();
+                if(collision.gameObject.GetComponent<Jason>().isShifting)
+                {
+                    Replacement();
+                }
             }
         }
-    }
-    void Replacement()
-    {
-        GameObject go = Instantiate<GameObject>(explodedVersion);
-        go.transform.position = transform.position;
-        Destroy(gameObject);
+        void Replacement()
+        {
+            GameObject go = Instantiate(explodedVersion);
+            go.transform.position = transform.position;
+            Destroy(gameObject);
+        }
     }
 }

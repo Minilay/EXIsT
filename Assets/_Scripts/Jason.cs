@@ -1,93 +1,102 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class Jason : MonoBehaviour
+namespace _Scripts
 {
-    // Start is called before the first frame update
-    [Header("Inspector")]
-    public float speed;
-    public float shiftTime;
-    public float dashForce;
-    public float startDashTime;
-
-    [Header("Dynamic")]
-    public Rigidbody2D rigid;
-    public Vector2 dir;
-    public bool Active;
-    public bool platformMode;
-    public bool isDash;
-    private float currentDashTime;
-    
-    private SpriteRenderer spr;
-    void Start()
+    public class Jason : MonoBehaviour
     {
-        rigid = GetComponent<Rigidbody2D>();
-        Active = false;
+        [Header("Inspector")] 
+        [SerializeField] private float speed;
+        [SerializeField] private float dashForce;
+        [SerializeField] private float startDashTime;
 
-        spr = GetComponentInChildren<SpriteRenderer>();
-        isDash = false;
-    }
+        [Header("Dynamic")] 
+        public Rigidbody2D rigid;
+        public Vector2 dir; 
+        public bool active;
+        public bool platformMode;
+        public bool isShifting;
+        private float _currentDashTime;
 
-    void Movement()
-    {
-        dir = new Vector2(
-            Input.GetAxisRaw("Horizontal"),
-            Input.GetAxisRaw("Vertical") 
+        private SpriteRenderer _spr;
+
+
+        private void Start()
+        {
+            rigid = GetComponent<Rigidbody2D>();
+            active = false;
+
+            _spr = GetComponentInChildren<SpriteRenderer>();
+            isShifting = false;
+        }
+
+        private void Movement()
+        {
+            dir = new Vector2(
+                Input.GetAxisRaw("Horizontal"),
+                Input.GetAxisRaw("Vertical")
             ) * speed;
 
-        if (dir.x > 0)
-        {
-            transform.localScale = new Vector3(-1, 1, 1);
-        }
-        if (dir.x < 0)
-        {
-            transform.localScale = Vector3.one;
-        }
-
-        rigid.velocity = dir;
-    }
-
-    
-    // Update is called once per frame
-    void Update()
-    {
-        if(!platformMode && !isDash)
-        {
-            Movement();
-        }
-        else
-        {
-            rigid.velocity = Vector3.zero;
-        }
-        //Activating the ghost
-        if(Input.GetKeyDown(KeyCode.LeftShift))
-        {
-            isDash = true;
-            currentDashTime = startDashTime;
-            rigid.velocity = Vector2.zero;
-        }    
-        if(Input.GetButtonDown("Jump"))
-        {
-            Active = true;
-        }
-        if(Input.GetButtonUp("Jump"))
-        {
-            Active = false;
-        }
-        if(isDash)
-        {
-            rigid.velocity = dir.normalized * dashForce;
-            currentDashTime -= Time.deltaTime;
-
-            if(currentDashTime < 0)
+            if (dir.x > 0)
             {
-                isDash = false;
+                transform.localScale = new Vector3(-1, 1, 1);
             }
+
+
+            if (dir.x < 0)
+            {
+                transform.localScale = Vector3.one;
+            }
+
+            rigid.velocity = dir;
         }
 
-        //Platform Mode
-        spr.enabled = platformMode ? false : true;
+        private void Update()
+        {
+            Control();
+        }
 
+
+        private void Control()
+        {
+            if (!platformMode && !isShifting)
+            {
+                Movement();
+            }
+            else
+            {
+                rigid.velocity = Vector3.zero;
+            }
+
+            if (Input.GetKeyDown(KeyCode.LeftShift))
+            {
+
+                isShifting = true;
+                _currentDashTime = startDashTime;
+                rigid.velocity = Vector2.zero;
+            }
+
+            if (Input.GetButtonDown("Jump"))
+            {
+                active = true;
+            }
+
+            if (Input.GetButtonUp("Jump"))
+            {
+                active = false;
+            }
+
+            if (isShifting)
+            {
+                rigid.velocity = dir.normalized * dashForce;
+                _currentDashTime -= Time.deltaTime;
+
+                if (_currentDashTime < 0)
+                {
+                    isShifting = false;
+                }
+            }
+
+            _spr.enabled = !platformMode;
+        }
     }
 }
