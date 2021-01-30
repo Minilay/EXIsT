@@ -20,7 +20,7 @@ public static class Rigidbody2DExt
             explosionDir.Normalize();
         }   
 
-        //rb.AddForce(Mathf.Lerp(0, explosionForce, (1 - explosionDistance)) * explosionDir, mode);
-        rb.AddForce(explosionDir * explosionForce, ForceMode2D.Force);
+        rb.AddForce(Mathf.Lerp(0, explosionForce, (1 - explosionDistance)) * explosionDir, mode);
+        //rb.AddForce(explosionDir * explosionForce, ForceMode2D.Force);
     }
 }

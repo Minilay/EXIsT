@@ -26,13 +26,16 @@ public class GhostPlatform : MonoBehaviour
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
-        player = null;
+        if(collision.transform.CompareTag("Player"))
+        {
+            player = null;
+        }
     }
     private void Update()
     {
         if (player != null)
         {
-            active = player.Active;
+            active = player.Active && (!player.isShifting);
         }
 
         if(player != null)

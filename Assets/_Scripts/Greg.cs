@@ -10,12 +10,12 @@ public class Greg : MonoBehaviour
 
     private void Start()
     {
-        dir = speed;
+        dir = 1;
         rigid = GetComponent<Rigidbody2D>();
     }
     private void Update()
     {
-        rigid.velocity = new Vector2(dir, rigid.velocity.y);
+        rigid.velocity = new Vector2(dir * speed, rigid.velocity.y);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -27,10 +27,11 @@ public class Greg : MonoBehaviour
     }
     private IEnumerator changeDir()
     {
-        rigid.velocity = Vector2.zero;
+        float tmp = dir;
+        dir = 0;
         Debug.Log("Start");
         yield return new WaitForSeconds(1);
         Debug.Log("changed");
-        dir = -dir;
+        dir = -tmp;
     }
 }

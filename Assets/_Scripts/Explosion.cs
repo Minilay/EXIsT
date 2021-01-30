@@ -11,7 +11,7 @@ public class Explosion : MonoBehaviour
     {
         foreach(Rigidbody2D go in pieces)
         {
-            go.AddExplosionForce(force, transform.position);
+            go.AddExplosionForce(force, transform.position,0.1f);
         }
     }
 
