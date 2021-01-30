@@ -11,7 +11,7 @@ public class ExplodedReplacement: MonoBehaviour
     {
         if(collision.transform.CompareTag("Player"))
         {
-            if(collision.gameObject.GetComponent<Jason>().isShifting)
+            if(collision.gameObject.GetComponent<Jason>().isDash)
             {
                 Replacement();
             }

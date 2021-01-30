@@ -10,10 +10,6 @@ public class CamFollow : MonoBehaviour
     [Range(0,1)]
     public float u; //Cam following rate;
     private Vector2 tmp;
-    private void Awake()
-    {
-    }
-
 
     
     private void FixedUpdate()

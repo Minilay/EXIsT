@@ -16,7 +16,7 @@ public class Jason : MonoBehaviour
     public Vector2 dir;
     public bool Active;
     public bool platformMode;
-    public bool isShifting;
+    public bool isDash;
     private float currentDashTime;
     
     private SpriteRenderer spr;
@@ -26,7 +26,7 @@ public class Jason : MonoBehaviour
         Active = false;
 
         spr = GetComponentInChildren<SpriteRenderer>();
-        isShifting = false;
+        isDash = false;
     }
 
     void Movement()
@@ -52,7 +52,7 @@ public class Jason : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(!platformMode && !isShifting)
+        if(!platformMode && !isDash)
         {
             Movement();
         }
@@ -63,7 +63,7 @@ public class Jason : MonoBehaviour
         //Activating the ghost
         if(Input.GetKeyDown(KeyCode.LeftShift))
         {
-            isShifting = true;
+            isDash = true;
             currentDashTime = startDashTime;
             rigid.velocity = Vector2.zero;
         }    
@@ -75,14 +75,14 @@ public class Jason : MonoBehaviour
         {
             Active = false;
         }
-        if(isShifting)
+        if(isDash)
         {
             rigid.velocity = dir.normalized * dashForce;
             currentDashTime -= Time.deltaTime;
 
             if(currentDashTime < 0)
             {
-                isShifting = false;
+                isDash = false;
             }
         }
 

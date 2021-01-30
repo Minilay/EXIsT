@@ -35,7 +35,7 @@ public class GhostPlatform : MonoBehaviour
     {
         if (player != null)
         {
-            active = player.Active && (!player.isShifting);
+            active = player.Active && (!player.isDash);
         }
 
         if(player != null)
