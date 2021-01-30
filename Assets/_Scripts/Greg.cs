@@ -22,10 +22,10 @@ public class Greg : MonoBehaviour
     {
         if(collision.transform.CompareTag("Obstacle"))
         {
-            StartCoroutine(changeDir());
+            StartCoroutine(ChangeDir());
         }
     }
-    private IEnumerator changeDir()
+    private IEnumerator ChangeDir()
     {
         float tmp = dir;
         dir = 0;
