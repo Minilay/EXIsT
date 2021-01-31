@@ -1,26 +1,29 @@
 ﻿using UnityEngine;
 
-public static class Rigidbody2DExt
+namespace _Scripts
 {
-
-    public static void AddExplosionForce(this Rigidbody2D rb, float explosionForce, Vector2 explosionPosition, float upwardsModifier = 0.0F, ForceMode2D mode = ForceMode2D.Force)
+    public static class Rigidbody2DExt
     {
-        var explosionDir = rb.position - explosionPosition;
-        var explosionDistance = explosionDir.magnitude;
 
-        // Normalize without computing magnitude again
-        if (upwardsModifier == 0)
-            explosionDir /= explosionDistance;
-        else
+        public static void AddExplosionForce(this Rigidbody2D rb, float explosionForce, Vector2 explosionPosition, float upwardsModifier = 0.0F, ForceMode2D mode = ForceMode2D.Force)
         {
-            // From Rigidbody.AddExplosionForce doc:
-            // If you pass a non-zero value for the upwardsModifier parameter, the direction
-            // will be modified by subtracting that value from the Y component of the centre point.
-            explosionDir.y += upwardsModifier;
-            explosionDir.Normalize();
-        }   
+            var explosionDir = rb.position - explosionPosition;
+            var explosionDistance = explosionDir.magnitude;
 
-        rb.AddForce(Mathf.Lerp(0, explosionForce, (1 - explosionDistance)) * explosionDir, mode);
-        //rb.AddForce(explosionDir * explosionForce, ForceMode2D.Force);
+            // Normalize without computing magnitude again
+            if (upwardsModifier == 0)
+                explosionDir /= explosionDistance;
+            else
+            {
+                // From Rigidbody.AddExplosionForce doc:
+                // If you pass a non-zero value for the upwardsModifier parameter, the direction
+                // will be modified by subtracting that value from the Y component of the centre point.
+                explosionDir.y += upwardsModifier;
+                explosionDir.Normalize();
+            }   
+
+            rb.AddForce(Mathf.Lerp(0, explosionForce, (1 - explosionDistance)) * explosionDir, mode);
+            //rb.AddForce(explosionDir * explosionForce, ForceMode2D.Force);
+        }
     }
 }

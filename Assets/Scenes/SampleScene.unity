@@ -3375,7 +3375,7 @@ MonoBehaviour:
   - {fileID: 534526938}
   - {fileID: 1166907535}
   smoothTime: 0.1
-  offset: {x: 0, y: 0, z: -1}
+  offset: {x: 0, y: 1, z: -1}
 --- !u!1 &534526937
 GameObject:
   m_ObjectHideFlags: 0
